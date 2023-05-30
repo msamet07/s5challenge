@@ -19,35 +19,29 @@ import axios from "axios";
   // </div>
   //
   const Card = (makale) => {
-  const cardDiv = document.createElement('div')
-  cardDiv.classList.add('card')
-  cardDiv.addEventListener('click',()=>{
-    console.log(makale.anabaslik)
-  })
-  
-  const headlineDiv = document.createElement('div')
-  headlineDiv.classList.add('headline')
-  headlineDiv.textContent = makale.anabaslik
 
-  const authorDiv = document.createElement('div')
-  authorDiv.classList.add('author')
 
-  const imgContainerDiv = document.createElement('div')
-  imgContainerDiv.classList.add('img-container')
-
-  const imgYazar = document.createElement('img')
-  imgYazar.setAttribute('src',makale.yazarFoto)
-
-  const yazarAdiSpan = document.createElement('span')
-  yazarAdiSpan.textContent = makale.yazarAdi + ' tarafından'
-
-  imgContainerDiv.append(imgYazar)
-  authorDiv.append(imgContainerDiv,yazarAdiSpan)
-  cardDiv.append(headlineDiv,authorDiv)
-
-  return cardDiv
-}
-
+  const cardDiv = document.createElement("div");
+  const headlineDiv = document.createElement("div");
+  const authorDiv = document.createElement("div");
+  const imgcontDiv = document.createElement("div");
+  const yazarImg = document.createElement("img");
+  const yazarSpan = document.createElement("span");
+  cardDiv.classList.add("card");
+  headlineDiv.setAttribute("class", "headline");
+  authorDiv.setAttribute("class", "author");
+  imgcontDiv.setAttribute("class", "img-container");
+  headlineDiv.textContent = makale.anabaslik;
+  yazarImg.src = makale.yazarFoto;
+  yazarSpan.textContent = `${makale.yazarAdi} tarafindan`;
+  imgcontDiv.appendChild(yazarImg);
+  authorDiv.append(imgcontDiv, yazarSpan);
+  cardDiv.append(headlineDiv, authorDiv);
+  cardDiv.addEventListener("click", (e) => {
+    console.log(makale.anabaslik);
+  });
+  return cardDiv;
+};
   // GÖREV 6
   // ---------------------
   // Tek bağımsız değişkeni olarak bir css seçici alan bu fonksiyonu uygulayın.
@@ -57,18 +51,25 @@ import axios from "axios";
   // Her cardı, fonksiyona iletilen seçiciyle eşleşen DOM'daki öğeye ekleyin.
   //
   const cardEkleyici = (secici) => {
-  const cardYeri = document.querySelector(secici)
+    
+  const cardQuery = document.querySelector(secici);
 
-  axios.get(`http://localhost:5001/api/makaleler`).then(res=>res.data.makaleler).then(makaleler=>{
-    for (const key in makaleler) {
-      makaleler[key].forEach(element => {
-        cardYeri.append(Card(element))
-      });
-    }
-  })
-}
-
+  const makaleler = axios
+    .get("http://localhost:5001/api/makaleler")
+    .then((res) => {
+      console.log(res.data);
+      for (let item in res.data.makaleler) {
+        for (let i = 0; i < res.data.makaleler[item].length; i++) {
+          cardQuery.appendChild(Card(res.data.makaleler[item][i]));
+        }
+      }
+    })
+    .catch((err) => {
+      console.log("Bir takım hatalar gerçekleşti....");
+    });
+};
 export { Card, cardEkleyici };
+
 
 
 

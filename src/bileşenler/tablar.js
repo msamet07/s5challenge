@@ -16,18 +16,16 @@ import axios from "axios";
   //
   const Tablar = (konu) => {
 
-    const topicsDiv = document.createElement('div')
-    topicsDiv.classList.add('topics')
-  
-    konu.forEach(element => {
-      const tab = document.createElement('div')
-      tab.classList.add('tab')
-      tab.textContent = element
-      topicsDiv.append(tab)
+    const topics = document.createElement("div");
+    topics.setAttribute("class", "topics");
+    konu.forEach((item) => {
+      const tabs = document.createElement("div");
+      tabs.setAttribute("class", "tab");
+      tabs.textContent = item;
+      topics.appendChild(tabs);
     });
-  
-    return topicsDiv
-  }
+    return topics;
+  };
 
 
   // GÖREV 4
@@ -39,12 +37,14 @@ import axios from "axios";
   //
 
   const tabEkleyici = (secici) => {
-    const tabYeri = document.querySelector(secici)
-  
-    axios.get(`http://localhost:5001/api/konular`).then(res=>res.data.konular).then(konular=>{
-      tabYeri.append(Tablar(konular));
-    })
+    const tabQuery = document.querySelector(secici);
 
+    const konular = axios
+      .get("http://localhost:5001/api/konular")
+      .then((res) => {
+        tabQuery.append(Tablar(res.data.konular));
+      })
+      .catch((err) => console.error(err));
   };
-
-export { Tablar, tabEkleyici };
+  
+  export { Tablar, tabEkleyici };

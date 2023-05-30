@@ -12,23 +12,23 @@
   //  </div>
   //
   const Header = (baslik, tarih, yazi) => { 
-    const headerDiv = document.createElement('div')
-    headerDiv.classList.add('header')
   
-    const tarihSpan = document.createElement('span')
-    tarihSpan.classList.add('date')
-    tarihSpan.textContent = tarih
   
-    const headerH1 = document.createElement('h1')
-    headerH1.textContent = baslik
-  
-    const tempSpan = document.createElement('span')
-    tempSpan.classList.add('temp')
-    tempSpan.textContent = yazi
-  
-    headerDiv.append(tarihSpan, headerH1, tempSpan)
-    return headerDiv
-  }
+  const headerContainer = document.createElement("div");
+  headerContainer.classList.add("header");
+  const date = document.createElement("span");
+  date.classList.add("date");
+  const title = document.createElement("h1");
+  const temp = document.createElement("span");
+  temp.classList.add("temp");
+
+  date.textContent = tarih;
+  title.textContent = baslik;
+  temp.textContent = yazi;
+  headerContainer.append(date, title, temp);
+
+  return headerContainer;
+};
   // GÖREV 2
   // ---------------------
   // Tek argümanı olarak bir css seçici alan bu fonksiyonu uygulayın.
@@ -39,10 +39,13 @@
   // İPUCU: querySelector bir string alabilir (bknz: querySelector("#wrapper")) 
   // fakat aynı zamanda bir değişken de alabilir (bknz: querySelector(secici))
   const headerEkleyici = (secici) => {
-    document
-    .querySelector(secici)
-    .appendChild(Header('Harika Bir Gün','Günün Tarihi', 'Gerekli Yazı'));
-  }
+    const headerContainer = document.querySelector(secici);
 
-  export { Header, headerEkleyici }
+    return headerContainer.append(
+      Header("Teknoloji Yolculuğu", "25 Şubat 2023", "Sağ Başlık")
+    );
+  };
+  
+  export { Header, headerEkleyici };
+  
 
